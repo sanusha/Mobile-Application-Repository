@@ -1,0 +1,105 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="VideoFile.MainPage"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+	<phone:PhoneApplicationPage.Resources>
+		<Style x:Key="volumeControl" TargetType="ToggleButton">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="ToggleButton">
+						<Canvas x:Name="canvas" Background="Black">
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CheckStates">
+									<VisualState x:Name="Indeterminate"/>
+									<VisualState x:Name="Checked">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="image2">
+												<DiscreteObjectKeyFrame KeyTime="0">
+													<DiscreteObjectKeyFrame.Value>
+														<Visibility>Collapsed</Visibility>
+													</DiscreteObjectKeyFrame.Value>
+												</DiscreteObjectKeyFrame>
+											</ObjectAnimationUsingKeyFrames>
+											<DoubleAnimation Duration="0" To="0.6" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="image1" d:IsOptimized="True"/>
+											<ColorAnimation Duration="0" To="#00000000" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" Storyboard.TargetName="canvas" d:IsOptimized="True"/>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Unchecked"/>
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+							<Image Height="42" Source="volume.jpg" HorizontalAlignment="Left" x:Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="37" />
+							<Image Height="29" Source="sound.jpg" HorizontalAlignment="Left" x:Name="image2" Stretch="Fill" VerticalAlignment="Top" Width="32" ImageFailed="image2_ImageFailed" Canvas.Left="29" Canvas.Top="6" />
+						</Canvas>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="CSS430 OPERATING SYSTEMS" Style="{StaticResource PhoneTextNormalStyle}" Height="37" Width="313" />
+
+
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <MediaElement Source="video.wmv"    
+                          Volume="1" DownloadProgressChanged="downloadProgressHandler" Loaded="StopMedia" Stretch="UniformToFill" AutoPlay="True" Height="215" HorizontalAlignment="Left" Margin="1,0,0,0" Name="mediaElement1" VerticalAlignment="Top" Width="450" IsMuted="{Binding IsChecked, ElementName=toggleButton}" DataContext="{Binding}" />
+            <Button Content="Stop" Height="60" FontSize="14" Foreground="Beige" HorizontalAlignment="Left" Margin="-6,235,0,0" Name="button1" Click="StopMedia" VerticalAlignment="Top" Width="107" />
+            <Button Content="Pause" Height="59" FontSize="14" HorizontalAlignment="Left" Margin="76,235,0,0" Name="button2" Click="PauseMedia" VerticalAlignment="Top" Width="107" />
+            <Button Content="Play" Height="60" HorizontalAlignment="Right" Margin="0,235,191,0" Name="button3"  FontSize="14" Click="PlayMedia" VerticalAlignment="Top" Width="106" />
+            <TextBlock Height="30" HorizontalAlignment="Left" Margin="117,219,0,0" Name="current" Text="UUUUUUU" FontSize="14" VerticalAlignment="Top" />
+            <TextBlock Height="30" HorizontalAlignment="Right" Margin="0,219,185,0" Name="total" Text="TYTYYTYT" FontSize="14" VerticalAlignment="Top" />
+            <Button Content="I love India"  Click="MoveToDesiredPosition"  Height="361" HorizontalAlignment="Left" Margin="6,319,0,0" Name="transcriptionPara1" VerticalAlignment="Top" Width="265" />
+            <ToggleButton x:Name="toggleButton" Content="ToggleButton" HorizontalAlignment="Right" Margin="0,247,59,415" Style="{StaticResource volumeControl}" Width="61"/>
+            <TextBlock Height="30" TextWrapping="NoWrap" HorizontalAlignment="Left" Margin="191,213,0,0" Name="seperator" Text="/" VerticalAlignment="Top" Width="19" />
+            <Image Height="66"  Source="christmas.png" HorizontalAlignment="Left" Margin="76,133,0,0" Name="popUpImage1" Stretch="Fill" VerticalAlignment="Top" Width="79" Visibility="Collapsed" 
+                   MouseEnter="popUpImage1Selected"/>
+            <Image Height="66" Source="Butter.png" HorizontalAlignment="Left" Margin="232,131,0,0" Name="popUpImage2" Stretch="Fill" VerticalAlignment="Top" Width="79" Visibility="Collapsed" MouseEnter="popUpImage2Selected"/>
+            <Slider Height="79" HorizontalAlignment="Left" Margin="7,170,0,0" Name="seekBar" VerticalAlignment="Top" Width="449" ValueChanged="mediaTimeline_Valuechanged" Maximum="1" LargeChange="0.1" />
+            <Image Height="98" HorizontalAlignment="Left" Margin="312,347,0,0" Name="artifaceImage1" Stretch="Fill" VerticalAlignment="Top" Width="112"  Visibility="Collapsed"/>
+            <Rectangle x:Name="mImageRectangle" Margin="277,469,9,37">
+                <toolkit:GestureService.GestureListener>
+                    <toolkit:GestureListener PinchStarted="GestureListener_PinchStarted"
+                                             PinchDelta="GestureListener_PinchDelta"
+                                             PinchCompleted="GestureListener_PinchCompleted"></toolkit:GestureListener>
+                </toolkit:GestureService.GestureListener>
+            </Rectangle>
+
+            <!--<Slider Height="79" HorizontalAlignment="Left" Margin="-6,244,0,0" Name="seekBar" VerticalAlignment="Top" Width="460" />-->
+        </Grid>
+    </Grid>
+ 
+    <!--Sample code showing usage of ApplicationBar-->
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
+                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
+            </shell:ApplicationBar.MenuItems>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
+
+</phone:PhoneApplicationPage>
